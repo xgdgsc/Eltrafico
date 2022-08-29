@@ -304,6 +304,15 @@ pub fn limit_conf(delay: Option<usize>, config_path: &str) -> crate::Result<()> 
                         );
                         continue;
                     } else {
+                        if con.lport.is_empty() || con.laddr.is_empty() {
+                            log::warn!(
+                                "empty: con.laddr: {} or con.lport: {}",
+                                con.laddr,
+                                con.lport
+                            );
+                            continue;
+                        }
+
                         let ingress_filter_id = add_ingress_filter(
                             con.lport.parse().unwrap(),
                             &root_ingress_c.lock().unwrap(),
